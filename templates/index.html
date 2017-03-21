@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block page_content %}
+	{% for message in messages %}
+		<!-- <dl> -->
+		<!-- 	<dt>{{ message.date }}</dt> -->
+		<!-- 	<dd>{{ message.message }}</dd> -->
+		<!-- </dl> -->
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">{{ message.date }}</div>
+					<div class="panel-body">{{ message.message }}</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	<a href="{{ url_for('new') }}">新しいメッセージを追加する</a>
+{% endblock %}
