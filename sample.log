@@ -1,0 +1,36 @@
+INFO:livereload:Serving on http://127.0.0.1:5500
+INFO:livereload:Watch current working directory
+INFO:livereload:Start watching changes
+INFO:livereload:Start detecting changes
+INFO:tornado.access:200 GET / (127.0.0.1) 123.57ms
+INFO:tornado.access:304 GET /livereload.js (127.0.0.1) 1.50ms
+INFO:livereload:Browser Connected: http://localhost:5500/
+INFO:tornado.access:200 GET /new (127.0.0.1) 74.55ms
+INFO:tornado.access:304 GET /livereload.js (127.0.0.1) 1.00ms
+INFO:livereload:Browser Connected: http://localhost:5500/new
+INFO:tornado.access:302 POST /new (127.0.0.1) 195.46ms
+INFO:tornado.access:200 GET / (127.0.0.1) 8.51ms
+INFO:tornado.access:304 GET /livereload.js (127.0.0.1) 2.50ms
+INFO:livereload:Browser Connected: http://localhost:5500/
+INFO:livereload:Shutting down...
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 184-366-205
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 184-366-205
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 184-366-205
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger pin code: 184-366-205
+new data inserted.
+2017-03-21 22:00:49,350 DEBUG: new data inserted. [in appFlask.py:59]
+2017-03-21 22:02:29,184 DEBUG: new data inserted. [in appFlask.py:59]
+2017-03-21 22:02:36,093 DEBUG: new data inserted. [in appFlask.py:59]
+2017-03-21 22:02:42,958 DEBUG: new data inserted. [in appFlask.py:59]

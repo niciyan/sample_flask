@@ -8,7 +8,8 @@ from datetime import datetime
 from flask_bootstrap import Bootstrap
 from livereload import Server
 import os
-
+import logging
+from logging import FileHandler, Formatter
 
 app = Flask(__name__)
 app.debug = True
@@ -21,6 +22,13 @@ db = SQLAlchemy(app)
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 
+# logging.basicConfig(level='DEBUG', filename="sample.log")
+file_handler = FileHandler('sample.log')
+file_handler.setFormatter(Formatter(
+    '%(asctime)s %(levelname)s: %(message)s '
+    '[in %(pathname)s:%(lineno)d]'
+))
+app.logger.addHandler(file_handler)
 
 class NameForm(FlaskForm):
     text = StringField("your message", validators=[ Required() ])
@@ -48,6 +56,7 @@ def new():
         db.session.add(me)
         db.session.commit()
         flash('新しいメッセージを追加しました!!')
+        app.logger.debug('new data inserted.')
         return redirect('/')
         print('passed')
     else:
@@ -55,7 +64,8 @@ def new():
 
 
 if __name__ == '__main__':
-    manager.run()
+    app.run()
+    # manager.run()
     # server = Server(app.wsgi_app)
     # server.serve()
 
