@@ -16,6 +16,6 @@ class DevelopmentConfig(Config):
 
 
 config = {
-        'development': DevelopmentConfig
+        'development': DevelopmentConfig,
         'default' : DevelopmentConfig
 }

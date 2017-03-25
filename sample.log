@@ -34,3 +34,4 @@ new data inserted.
 2017-03-21 22:02:29,184 DEBUG: new data inserted. [in appFlask.py:59]
 2017-03-21 22:02:36,093 DEBUG: new data inserted. [in appFlask.py:59]
 2017-03-21 22:02:42,958 DEBUG: new data inserted. [in appFlask.py:59]
+2017-03-25 12:20:17,119 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\myFlask\app\main\views.py:23]
