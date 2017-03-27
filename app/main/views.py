@@ -21,7 +21,7 @@ def new():
         db.session.commit()
         flash('新しいメッセージを追加しました!!')
         current_app.logger.debug('new data inserted.')
-        return redirect('/')
+        return redirect(url_for('main.index'))
         print('passed')
     else:
         return render_template('new.html', form=form)
