@@ -1,4 +1,5 @@
 from flask import render_template, redirect, flash, url_for, current_app
+from flask_login import login_required
 from . import main
 from .. import db
 from ..models import Message
@@ -6,10 +7,12 @@ from .forms import NameForm
 from datetime import datetime
 
 @main.route('/')
+@login_required
 def index():
     return render_template('index.html', messages=Message().query.order_by(Message.date.desc()).limit(6).all())
 
 @main.route('/new', methods=['GET', 'POST'])
+@login_required
 def new():
     form = NameForm() 
     # if request.method == 'POST':
