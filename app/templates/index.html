@@ -1,15 +1,21 @@
 {% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-	{% for message in messages %}
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="panel panel-default">
+	<div class="row">
+		<div class="col-sm-4">
+			<h3>新しくメッセージを追加する</h3>
+			{{ wtf.quick_form(form) }}
+		</div>
+		<div class="col-sm-6 pull-right">
+			<h4><i>Messages</i></h4>
+		{% for message in messages %}
+				<div class="panel panel-info">
 					<div class="panel-heading">{{ message.date }}</div>
 					<div class="panel-body">{{ message.message }}</div>
 				</div>
-			</div>
+		{% endfor %}
+		<h5><a href="{{ url_for('main.index') }}">メッセージを更新する</a></h5>
 		</div>
-	{% endfor %}
-	<a href="{{ url_for('main.new') }}">新しいメッセージを追加する</a>
+	</div>
 {% endblock %}

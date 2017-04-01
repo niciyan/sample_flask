@@ -2,11 +2,46 @@
 
 {% block title %}Flasky{% endblock %}
 
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='teemo.jpg') }}" type="image/icon">
+{% endblock %}
+
 
 {% block content %}
+<nav class="navbar navbar-inverse">
+	<div class="container">
+		<a class="navbar-brand" href="{{ url_for('main.index') }}">Flasky</a>
+		<a class="navbar-brand navbar-right" href="{{ url_for('auth.register') }}">新規登録</a>
+		<ul class="nav navbar-nav navbar-right">
+			{% if current_user.is_authenticated %}
+			<a class="navbar-brand" href="{{ url_for('auth.logout') }}">ログアウト</a>
+			{% else %}
+			<a class="navbar-brand" href="{{ url_for('auth.login') }}">ログイン</a>
+			{% endif %}
+
+		</ul>
+	</div>
+</nav>
 <div class="container">
 	<div class="page-header text-info">
-		<h1>メッセージ投稿アプリ</h1>
+		<div class="row">
+			<div class="col-sm-2">
+				<img class="img-thumbnail" src="{{ url_for('static', filename='teemo.jpg') }}" alt="pic">
+			</div>
+			<div class="col-sm-10">
+				<h1>メッセージ投稿アプリ</h1>
+				<h3>
+				{% if current_user.is_authenticated %}
+					ログイン中： {{ current_user.username }}
+				{% else %}
+					Hi, Stranger!
+					まだ、あなたはログインしていません。
+				{% endif %}
+				</h3>
+			</div>
+		</div>
+			
 	</div>
 	{% for message in get_flashed_messages() %}
 	<div class="alert alert-success">
