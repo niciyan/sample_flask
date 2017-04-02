@@ -11,6 +11,7 @@ import os
 import logging
 from logging import FileHandler, Formatter
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_moment import Moment
 
 app = Flask(__name__)
 app.debug = True
@@ -22,6 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 manager = Manager(app)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 # logging.basicConfig(level='DEBUG', filename="sample.log")
 file_handler = FileHandler('sample.log')

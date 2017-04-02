@@ -5,6 +5,7 @@
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='teemo.jpg') }}" type="image/icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
 {% endblock %}
 
 
@@ -15,6 +16,7 @@
 		<a class="navbar-brand navbar-right" href="{{ url_for('auth.register') }}">新規登録</a>
 		<ul class="nav navbar-nav navbar-right">
 			{% if current_user.is_authenticated %}
+			<a class="navbar-brand" href="">{{ current_user.username }}</a>
 			<a class="navbar-brand" href="{{ url_for('auth.logout') }}">ログアウト</a>
 			{% else %}
 			<a class="navbar-brand" href="{{ url_for('auth.login') }}">ログイン</a>
@@ -26,19 +28,8 @@
 <div class="container">
 	<div class="page-header text-info">
 		<div class="row">
-			<div class="col-sm-2">
-				<img class="img-thumbnail" src="{{ url_for('static', filename='teemo.jpg') }}" alt="pic">
-			</div>
 			<div class="col-sm-10">
-				<h1>メッセージ投稿アプリ</h1>
-				<h3>
-				{% if current_user.is_authenticated %}
-					ログイン中： {{ current_user.username }}
-				{% else %}
-					Hi, Stranger!
-					まだ、あなたはログインしていません。
-				{% endif %}
-				</h3>
+				<h1>Messaging Application <small>メッセージ投稿アプリ</small></h1>
 			</div>
 		</div>
 			

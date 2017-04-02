@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
+
 {% block page_content %}
 	<div class="row">
 		<div class="col-sm-4">
@@ -11,7 +16,10 @@
 			<h4><i>Messages</i></h4>
 		{% for message in messages %}
 				<div class="panel panel-info">
-					<div class="panel-heading">{{ message.date }}</div>
+					<div class="panel-heading">
+						<strong>{{ message.author.username }}</strong>
+						<div class="pull-right">{{ moment(message.date).fromNow(refresh=True) }}</div>
+					</div>
 					<div class="panel-body">{{ message.message }}</div>
 				</div>
 		{% endfor %}

@@ -8,6 +8,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     message = db.Column(db.String(64))
     date = db.Column(db.DateTime)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -15,7 +16,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    posts = db.relationship('Message', backref='author', lazy='dynamic')
+   # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def __repr__(self):
         return '<User %r>' % self.username

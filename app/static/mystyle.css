@@ -1,0 +1,9 @@
+body {
+	font-family: メイリオ
+}
+div.post-username {
+	font-weight: bold;
+}
+div.post-date {
+	float: right;
+}

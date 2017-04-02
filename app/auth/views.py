@@ -20,7 +20,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('ログアウトしました。')
     return redirect(url_for('main.index'))
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -32,6 +32,6 @@ def register():
                 password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Successfully registered!')
+        flash('登録しました！')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
