@@ -13,7 +13,7 @@ def index():
     # if request.method == 'POST':
     if form.validate_on_submit():
         # form.text.data
-        now = datetime.now()
+        now = datetime.utcnow()
         me = Message(message=form.text.data, date=now, author=current_user._get_current_object())
         db.session.add(me)
         db.session.commit()
