@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import config
@@ -13,6 +13,7 @@ login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'このページにアクセスするには、ログインしてください。'
+login_manager.login_message_category = 'warning'
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -23,6 +24,12 @@ def create_app(config_name):
     db.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
+
+    # top page routing
+    @app.route('/')
+    def top():
+        return render_template('top.html')
+
 
     # some attachment statement
     from .main import main as main_blueprint

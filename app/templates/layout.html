@@ -16,7 +16,7 @@
 		<a class="navbar-brand navbar-right" href="{{ url_for('auth.register') }}">新規登録</a>
 		<ul class="nav navbar-nav navbar-right">
 			{% if current_user.is_authenticated %}
-			<a class="navbar-brand" href="">{{ current_user.username }}</a>
+			<a class="navbar-brand" href="{{  url_for('main.user', username=current_user.username)  }}">{{ current_user.username }}</a>
 			<a class="navbar-brand" href="{{ url_for('auth.logout') }}">ログアウト</a>
 			{% else %}
 			<a class="navbar-brand" href="{{ url_for('auth.login') }}">ログイン</a>
@@ -34,8 +34,8 @@
 		</div>
 			
 	</div>
-	{% for message in get_flashed_messages() %}
-	<div class="alert alert-success">
+	{% for category, message in get_flashed_messages(with_categories=True) %}
+	<div class="alert alert-{{ category }}">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		{{ message }}
 	</div>
