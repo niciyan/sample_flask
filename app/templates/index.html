@@ -12,13 +12,21 @@
 		<div class="col-sm-4">
 			<h3>新しくメッセージを追加する</h3>
 			{{ wtf.quick_form(form) }}
+			<div class="well well-option">
+				<h4>登録ユーザ</h4>
+				<ul>
+					{% for user in users %}
+					<li>{{ user.name or user.username }}</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
 			<h4><i>Messages</i></h4>
 		{% for message in messages %}
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<strong>{{ message.author.username }}</strong>
+						<strong>{{ message.author.name or message.author.username }}</strong>
 						<div class="pull-right">{{ moment(message.date).fromNow(refresh=True) }}</div>
 					</div>
 					<div class="panel-body">{{ message.message }}</div>

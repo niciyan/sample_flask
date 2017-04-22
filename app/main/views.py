@@ -22,6 +22,7 @@ def index():
         return redirect(url_for('.index'))
     return render_template('index.html',
             messages=Message().query.order_by(Message.date.desc()).limit(6).all(),
+            users=User().query.all(),
             form=form)
 
 @main.route('/user/<username>')

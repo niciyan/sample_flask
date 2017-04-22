@@ -7,3 +7,7 @@ div.post-username {
 div.post-date {
 	float: right;
 }
+div.well-option {
+	margin-top: 20px;
+	margin-bottom: 20px
+}
