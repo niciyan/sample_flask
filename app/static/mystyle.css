@@ -11,3 +11,11 @@ div.well-option {
 	margin-top: 20px;
 	margin-bottom: 20px
 }
+
+.navbar-default {
+  background-color: #0c8df2;
+  border-color: #75b7ea;
+}
+.navbar-default .navbar-brand {
+  color: #f8ffff;
+}

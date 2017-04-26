@@ -80,3 +80,5 @@ new data inserted.
 2017-04-22 09:51:12,091 DEBUG: new data inserted. [in /home/nishi/python_dcos/for_flask/sample_flask/app/main/views.py:21]
 2017-04-22 10:21:51,787 DEBUG: new data inserted. [in /home/nishi/python_dcos/for_flask/sample_flask/app/main/views.py:21]
 2017-04-22 10:26:37,764 DEBUG: new data inserted. [in /home/nishi/python_dcos/for_flask/sample_flask/app/main/views.py:21]
+2017-04-23 08:37:46,518 DEBUG: new data inserted. [in /home/nishi/python_dcos/for_flask/sample_flask/app/main/views.py:21]
+2017-04-26 20:35:40,216 DEBUG: new data inserted. [in /home/nishi/python_dcos/for_flask/sample_flask/app/main/views.py:21]

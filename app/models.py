@@ -8,8 +8,31 @@ class Message(db.Model):
     __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True, index=True)
     message = db.Column(db.String(64))
-    date = db.Column(db.DateTime)
+    date = db.Column(db.DateTime, default=datetime.utcnow())
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    @staticmethod
+    def generate_fake(count=10):
+        from random import seed, randint, choice
+        
+        seed()
+        user_count = User.query.count()
+        SAMPLE_MESSAGES = [
+                "いいんじゃない？",
+                "おｋ",
+                "こんにちは",
+                "おつかれさん",
+                "ただいま",
+                "会議中",
+                "continueed",
+                "Hello!",
+                "元気げんき",
+                ]
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count -1)).first()
+            m = Message(message=choice(SAMPLE_MESSAGES),date=datetime.utcnow(), author=u)
+            db.session.add(m)
+            db.session.commit()
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

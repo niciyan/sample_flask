@@ -10,8 +10,9 @@
 
 
 {% block content %}
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-default">
 	<div class="container">
+		<span class="navbar-brand glyphicon glyphicon-pencil"></span>
 		<a class="navbar-brand" href="{{ url_for('main.index') }}">Flasky</a>
 		<a class="navbar-brand navbar-right" href="{{ url_for('auth.register') }}">新規登録</a>
 		<ul class="nav navbar-nav navbar-right">
@@ -26,14 +27,6 @@
 	</div>
 </nav>
 <div class="container">
-	<div class="page-header text-info">
-		<div class="row">
-			<div class="col-sm-10">
-				<h1>Messaging Application <small>メッセージ投稿アプリ</small></h1>
-			</div>
-		</div>
-			
-	</div>
 	{% for category, message in get_flashed_messages(with_categories=True) %}
 	<div class="alert alert-{{ category }}">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
