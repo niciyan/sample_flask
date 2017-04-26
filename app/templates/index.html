@@ -22,17 +22,25 @@
 			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
-			<h4><i>Messages</i></h4>
-		{% for message in messages %}
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<strong>{{ message.author.name or message.author.username }}</strong>
-						<div class="pull-right">{{ moment(message.date).fromNow(refresh=True) }}</div>
-					</div>
-					<div class="panel-body">{{ message.message }}</div>
-				</div>
-		{% endfor %}
-		<h5><a href="{{ url_for('main.index') }}">メッセージを更新する</a></h5>
+			<h3>
+				<i>Messages</i>
+				<a href="{{ url_for('main.index') }}">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</a>
+			</h3>
+			<dl class="message-region">
+				{% for message in messages %}
+					<!-- <div class="panel panel-info"> -->
+					<!-- 	<div class="panel-heading"> -->
+					<!-- 		<strong>{{ message.author.name or message.author.username }}</strong> -->
+					<!-- 		<div class="pull-right">{{ moment(message.date).fromNow(refresh=True) }}</div> -->
+					<!-- 	</div> -->
+					<!-- 	<div class="panel-body">{{ message.message }}</div> -->
+					<!-- </div> -->
+					<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
+					<dd>-  {{ message.message }}</dd>
+				{% endfor %}
+			</dl>
 		</div>
 	</div>
 {% endblock %}

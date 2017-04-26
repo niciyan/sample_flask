@@ -19,3 +19,12 @@ div.well-option {
 .navbar-default .navbar-brand {
   color: #f8ffff;
 }
+
+.message-region {
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+dd {
+	margin-bottom: 7px;
+}
