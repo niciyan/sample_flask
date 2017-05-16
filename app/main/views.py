@@ -56,4 +56,4 @@ def load_ajax():
 @main.route('/admin')
 def show_users():
     users = User().query.all()
-    return render_template('admin.html', users)
+    return render_template('admin.html', users=users)

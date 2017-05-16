@@ -1,4 +1,10 @@
-
 {% extends "layout.html" %}
 
-
+{% block page_content %}
+{% for user in users %}
+<dl>
+	<dt>{{ user.username }}</dt>
+	<dd>{{ user.email }}</dd>
+</dl>
+{% endfor %}
+{% endblock %}
