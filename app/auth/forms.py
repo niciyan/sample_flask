@@ -5,23 +5,23 @@ from wtforms import ValidationError
 from ..models import User
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[ Required(), Length(1,64), Email() ])
-    password = PasswordField('Pasword', validators=[ Required() ])
-    remember_me = BooleanField('Keep me logged in')
-    submit = SubmitField('Log in')
+    email = StringField('メールアドレス', validators=[ Required(), Length(1,64), Email() ])
+    password = PasswordField('パスワード', validators=[ Required() ])
+    remember_me = BooleanField('パスワードを記憶する')
+    submit = SubmitField('ログイン')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[Required(), Length(1, 64),
+    email = StringField('メールアドレス', validators=[Required(), Length(1, 64),
                                            Email()])
-    username = StringField('Username', validators=[
+    username = StringField('ユーザー名', validators=[
         Required(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                                           'Usernames must have only letters, '
                                           'numbers, dots or underscores')])
-    password = PasswordField('Password', validators=[
+    password = PasswordField('パスワード', validators=[
         Required(), EqualTo('password2', message='Passwords must match.')])
-    password2 = PasswordField('Confirm password', validators=[Required()])
-    submit = SubmitField('Register')
+    password2 = PasswordField('パスワード(確認用)', validators=[Required()])
+    submit = SubmitField('登録')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
