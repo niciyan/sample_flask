@@ -5,6 +5,13 @@
 {{ super() }}
 {{ moment.include_moment() }}
 {{ moment.lang('ja') }}
+<script>
+	$(document).ready(function(){
+		$('#taka').click(function () { 
+			$('#results').load("/ajax");
+		}); 
+	});
+</script>
 {% endblock %}
 
 {% block page_content %}
@@ -22,6 +29,8 @@
 			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
+			<button type="button" class="btn btn-success" id="taka">Success</button>
+			<div id="results"></div>
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">

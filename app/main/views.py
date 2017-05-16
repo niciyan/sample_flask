@@ -47,3 +47,13 @@ def edit_profile():
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
+
+@main.route('/ajax')
+def load_ajax():
+    users = User().query.all()
+    return render_template('ajax.html', users=users)
+
+@main.route('/admin')
+def show_users():
+    users = User().query.all()
+    return render_template('admin.html', users)
