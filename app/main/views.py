@@ -50,8 +50,8 @@ def edit_profile():
 
 @main.route('/ajax')
 def load_ajax():
-    users = User().query.all()
-    return render_template('ajax.html', users=users)
+    messages = Message().query.filter_by(author_id=current_user.get_id()).order_by(Message.date.desc()).all()
+    return render_template('ajax.html', messages=messages)
 
 @main.route('/admin')
 def show_users():

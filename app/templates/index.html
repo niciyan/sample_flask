@@ -6,13 +6,14 @@
 {{ moment.include_moment() }}
 {{ moment.lang('ja') }}
 <script>
-	$(document).ready(function(){
 		$('#taka').click(function () { 
-			$('#results').load("/ajax");
+			$('#results').load("/ajax", function() {
+				flask_moment_render_all();
+			});
 		}); 
-	});
 </script>
 {% endblock %}
+
 
 {% block page_content %}
 	<div class="row">
@@ -29,20 +30,21 @@
 			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
-			<button type="button" class="btn btn-success" id="taka">Success</button>
-			<div id="results"></div>
+			<button type="button" class="btn btn-success" id="taka">show only my messages</button>
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</a>
 			</h3>
+			<div id="results">
 			<dl class="message-region">
 				{% for message in messages %}
 					<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
 					<dd>-  {{ message.message }}</dd>
 				{% endfor %}
 			</dl>
+			</div>
 		</div>
 	</div>
 {% endblock %}
