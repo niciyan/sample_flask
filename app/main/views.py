@@ -20,9 +20,13 @@ def index():
         flash('新しいメッセージを追加しました!!', 'success')
         current_app.logger.debug('new data inserted.')
         return redirect(url_for('.index'))
+    pagination = Message.query.order_by(Message.date.desc()) \
+            .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
+            error_out=False)
+    messages=pagination.items
     return render_template('index.html',
-            messages=Message().query.order_by(Message.date.desc()).limit(6).all(),
-            users=User().query.all(),
+            pagination=pagination,
+            messages=messages,
             form=form)
 
 @main.route('/user/<username>')

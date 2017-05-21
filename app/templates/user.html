@@ -7,26 +7,29 @@
 {% endblock %}
 
 {% block page_content %}
-<h1>{{ user.username }}</h1>
-{% if user.name or user.location %}
-<p>
-	{% if user.name %}{{ user.name }} {% endif %}
-	{% if user.location %}
-		From <a href="http://maps.google.com/?q={{ user.location }}">
-			{{ user.location }}
-		</a>
+<img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
+<div class="profile-header">
+	<h1>{{ user.username }}</h1>
+	{% if user.name or user.location %}
+	<p>
+		{% if user.name %}{{ user.name }} {% endif %}
+		{% if user.location %}
+			From <a href="http://maps.google.com/?q={{ user.location }}">
+				{{ user.location }}
+			</a>
+		{% endif %}
+	</p>
 	{% endif %}
-</p>
-{% endif %}
-{% if user.about_me %} <p>{{ user.about_me }}</p> {% endif %}
-<p>
-	Member since {{ moment(user.member_since).format('L') }}.
-	<br>
-	Last seen {{ moment(user.last_seen).fromNow() }}.
-</p>
-{% if user == current_user %}
-<a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
-	Edit Profile
-</a>
-{% endif %}
+	{% if user.about_me %} <p>{{ user.about_me }}</p> {% endif %}
+	<p>
+		Member since {{ moment(user.member_since).format('L') }}.
+		<br>
+		Last seen {{ moment(user.last_seen).fromNow() }}.
+	</p>
+	{% if user == current_user %}
+	<a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
+		Edit Profile
+	</a>
+	{% endif %}
+</div>
 {% endblock %}

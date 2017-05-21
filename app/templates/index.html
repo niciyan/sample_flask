@@ -22,14 +22,6 @@
 		<div class="col-sm-4">
 			<h3>新しくメッセージを追加する</h3>
 			{{ wtf.quick_form(form) }}
-			<div class="well well-option">
-				<h4>登録ユーザ</h4>
-				<ul>
-					{% for user in users %}
-					<li>{{ user.name or user.username }}</li>
-					{% endfor %}
-				</ul>
-			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
 			<button type="button" class="btn btn-success" id="taka">show only my messages</button>
@@ -40,13 +32,14 @@
 				</a>
 			</h3>
 			<div id="results">
-			{% for message in messages %}
-				<dl class="message-region">
-					<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
-					<dd>-  {{ message.body }}</dd>
-				</dl>
-			{% endfor %}
-			{{ render_pagination(query_results) }}
+			<!-- {% for message in messages %} -->
+			<!-- 	<dl class="message-region"> -->
+			<!-- 		<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt> -->
+			<!-- 		<dd>-  {{ message.body }}</dd> -->
+			<!-- 	</dl> -->
+			<!-- {% endfor %} -->
+			{% include '_posts.html' %}
+			{{ render_pagination(pagination) }}
 			</div>
 		</div>
 	</div>
