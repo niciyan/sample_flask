@@ -2,19 +2,19 @@ from flask import render_template, redirect, flash, url_for, current_app, abort
 from flask_login import login_required, current_user
 from . import main
 from .. import db
-from ..models import Message, User
-from .forms import NameForm, EditProfileForm
+from ..models import Message, User, Comment
+from .forms import MessageForm, EditProfileForm
 from datetime import datetime
 
 @main.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    form = NameForm() 
+    form = MessageForm() 
     # if request.method == 'POST':
     if form.validate_on_submit():
         # form.text.data
         now = datetime.utcnow()
-        me = Message(message=form.text.data, date=now, author=current_user._get_current_object())
+        me = Message(body=form.body.data, date=now, author=current_user._get_current_object())
         db.session.add(me)
         db.session.commit()
         flash('新しいメッセージを追加しました!!', 'success')
@@ -57,3 +57,40 @@ def load_ajax():
 def show_users():
     users = User().query.all()
     return render_template('admin.html', users=users)
+
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
+def post(id):
+    message = Message.query.get_or_404()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                post=post,
+                author=current_user._get_current_object())
+        db.session.add(comment)
+        flash('コメントが公開されました！')
+        return redirect(url_for('.post', id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) / \
+                current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).pagenate(
+            page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+            error_out=False
+            )
+    return render_template('post.html', form=form, pagination=pagination)
+
+
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    message = Message.query.get_or_404(id)
+    if current_user != message.author: 
+        abort(403)
+    form = MessageForm()
+    if form.validate_on_submit():
+        message.body = form.body.data
+        db.session.add(message)
+        flash('The message has been updated.')
+        return redirect(url_for('.post', id=message.id))
+    form.body.data = message.body
+    return render_template('edit_post.html', form=form)

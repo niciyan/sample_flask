@@ -28,3 +28,8 @@ div.well-option {
 dd {
 	margin-bottom: 7px;
 }
+
+div.post-footer {
+	text-align: right;
+}
+

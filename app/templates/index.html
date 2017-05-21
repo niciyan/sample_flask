@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
 {{ moment.lang('ja') }}
+{{ pagedown.include_pagedown() }}
 <script>
 		$('#taka').click(function () { 
 			$('#results').load("/ajax", function() {
@@ -38,12 +40,13 @@
 				</a>
 			</h3>
 			<div id="results">
-			<dl class="message-region">
-				{% for message in messages %}
+			{% for message in messages %}
+				<dl class="message-region">
 					<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
-					<dd>-  {{ message.message }}</dd>
-				{% endfor %}
-			</dl>
+					<dd>-  {{ message.body }}</dd>
+				</dl>
+			{% endfor %}
+			{{ render_pagination(query_results) }}
 			</div>
 		</div>
 	</div>

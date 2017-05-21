@@ -7,9 +7,21 @@ from datetime import datetime
 class Message(db.Model):
     __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True, index=True)
-    message = db.Column(db.String(64))
+    body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
     date = db.Column(db.DateTime, default=datetime.utcnow())
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='message', lazy='dynamic')
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
 
     @staticmethod
     def generate_fake(count=10):
@@ -30,9 +42,12 @@ class Message(db.Model):
                 ]
         for i in range(count):
             u = User.query.offset(randint(0, user_count -1)).first()
-            m = Message(message=choice(SAMPLE_MESSAGES),date=datetime.utcnow(), author=u)
+            m = Message(body=choice(SAMPLE_MESSAGES),date=datetime.utcnow(), author=u)
             db.session.add(m)
             db.session.commit()
+
+db.event.listen(Message.body, 'set', Message.on_changed_body)
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -46,6 +61,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -64,6 +80,16 @@ class User(UserMixin, db.Model):
     def ping(self):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    message_id = db.Column(db.Integer, db.ForeignKey('messages.id'))
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
