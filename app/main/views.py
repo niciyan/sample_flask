@@ -1,9 +1,9 @@
-from flask import render_template, redirect, flash, url_for, current_app, abort
+from flask import render_template, redirect, flash, url_for, current_app, abort, request
 from flask_login import login_required, current_user
 from . import main
 from .. import db
 from ..models import Message, User, Comment
-from .forms import MessageForm, EditProfileForm
+from .forms import MessageForm, EditProfileForm, CommentForm
 from datetime import datetime
 
 @main.route('/', methods=['GET', 'POST'])
@@ -64,24 +64,25 @@ def show_users():
 
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
-    message = Message.query.get_or_404()
+    message = Message.query.get_or_404(id)
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
-                post=post,
+                message=message,
                 author=current_user._get_current_object())
         db.session.add(comment)
-        flash('コメントが公開されました！')
-        return redirect(url_for('.post', id=post.id, page=-1))
+        flash('コメントが公開されました！', "success")
+        return redirect(url_for('.post', id=message.id, page=-1))
     page = request.args.get('page', 1, type=int)
     if page == -1:
-        page = (post.comments.count() - 1) / \
+        page = ( message.comments.count() - 1) / \
                 current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
-    pagination = post.comments.order_by(Comment.timestamp.asc()).pagenate(
+    pagination = message.comments.order_by(Comment.timestamp.asc()).paginate(
             page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
             error_out=False
             )
-    return render_template('post.html', form=form, pagination=pagination)
+    comments = pagination.items
+    return render_template('post.html', form=form, comments=comments, pagination=pagination)
 
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
@@ -94,7 +95,7 @@ def edit(id):
     if form.validate_on_submit():
         message.body = form.body.data
         db.session.add(message)
-        flash('The message has been updated.')
+        flash('メッセージが更新されました!', "success")
         return redirect(url_for('.post', id=message.id))
     form.body.data = message.body
     return render_template('edit_post.html', form=form)

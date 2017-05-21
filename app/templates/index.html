@@ -24,7 +24,6 @@
 			{{ wtf.quick_form(form) }}
 		</div>
 		<div class="col-sm-6 pull-right">
-			<button type="button" class="btn btn-success" id="taka">show only my messages</button>
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">
@@ -32,14 +31,8 @@
 				</a>
 			</h3>
 			<div id="results">
-			<!-- {% for message in messages %} -->
-			<!-- 	<dl class="message-region"> -->
-			<!-- 		<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt> -->
-			<!-- 		<dd>-  {{ message.body }}</dd> -->
-			<!-- 	</dl> -->
-			<!-- {% endfor %} -->
-			{% include '_posts.html' %}
-			{{ render_pagination(pagination) }}
+				{% include '_posts.html' %}
+				{{ render_pagination(pagination) }}
 			</div>
 		</div>
 	</div>

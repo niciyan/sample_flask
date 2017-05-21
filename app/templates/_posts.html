@@ -16,6 +16,16 @@
 					{{ message.body }}
 				{% endif %}
 			</div>
+			<div class="post-footer">
+				{% if current_user == message.author %}
+				<a href="{{ url_for('.edit', id=message.id) }}">
+					<span class="label label-primary">Edit</span>
+				</a>
+                {% endif %}
+                <a href="{{ url_for('.post', id=message.id) }}#comments">
+                    <span class="label label-primary">{{ message.comments.count() }} Comments</span>
+                </a>
+			</div>
 		</div>
     </li>
     {% endfor %}
