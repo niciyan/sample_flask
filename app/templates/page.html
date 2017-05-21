@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang('ja') }}
+{% endblock %}
+
+{% block page_content %}
+
+<dl class="message-region">
+	{% for message in pagination.items %}
+	<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
+	<dd>-  {{ message.message }}</dd>
+	{% endfor %}
+</dl>
+
+{{render_pagination(pagination)}}
+{% endblock %}

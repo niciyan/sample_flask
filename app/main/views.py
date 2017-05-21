@@ -57,3 +57,8 @@ def load_ajax():
 def show_users():
     users = User().query.all()
     return render_template('admin.html', users=users)
+
+@main.route('/reminder')
+def paginating():
+    pagination = Message.query.order_by(Message.date.desc()).paginate(per_page=8, error_out=False)
+    return render_template('page.html', pagination=pagination)
