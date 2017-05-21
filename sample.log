@@ -94,3 +94,5 @@ new data inserted.
 2017-05-21 19:31:18,886 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\sample_flask\app\main\views.py:21]
 2017-05-21 19:31:44,888 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\sample_flask\app\main\views.py:21]
 2017-05-21 23:20:55,198 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\sample_flask\app\main\views.py:21]
+2017-05-22 01:55:08,492 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\sample_flask\app\main\views.py:21]
+2017-05-22 02:10:29,762 DEBUG: new data inserted. [in C:\Users\nishi\Documents\PythonScripts\sample_flask\app\main\views.py:21]

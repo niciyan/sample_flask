@@ -82,7 +82,7 @@ def post(id):
             error_out=False
             )
     comments = pagination.items
-    return render_template('post.html', form=form, comments=comments, pagination=pagination)
+    return render_template('post.html', form=form, messages=[message], comments=comments, pagination=pagination)
 
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
