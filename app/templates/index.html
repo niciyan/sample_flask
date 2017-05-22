@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
 {{ moment.lang('ja') }}
+{{ pagedown.include_pagedown() }}
 <script>
 		$('#taka').click(function () { 
 			$('#results').load("/ajax", function() {
@@ -20,17 +22,8 @@
 		<div class="col-sm-4">
 			<h3>新しくメッセージを追加する</h3>
 			{{ wtf.quick_form(form) }}
-			<div class="well well-option">
-				<h4>登録ユーザ</h4>
-				<ul>
-					{% for user in users %}
-					<li>{{ user.name or user.username }}</li>
-					{% endfor %}
-				</ul>
-			</div>
 		</div>
 		<div class="col-sm-6 pull-right">
-			<button type="button" class="btn btn-success" id="taka">show only my messages</button>
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">
@@ -38,12 +31,8 @@
 				</a>
 			</h3>
 			<div id="results">
-			<dl class="message-region">
-				{% for message in messages %}
-					<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
-					<dd>-  {{ message.message }}</dd>
-				{% endfor %}
-			</dl>
+				{% include '_posts.html' %}
+				{{ render_pagination(pagination) }}
 			</div>
 		</div>
 	</div>

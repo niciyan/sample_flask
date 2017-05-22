@@ -1,7 +1,7 @@
 <dl class="message-region">
 	{% for message in messages %}
 	<dt>{{ message.author.name or message.author.username }} ({{ moment(message.date).fromNow(refresh=True) }})</dt>
-	<dd>-  {{ message.message }}</dd>
+	<dd>-  {{ message.body }}</dd>
 	{% endfor %}
 </dl>
 
