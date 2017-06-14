@@ -1,2 +1,3 @@
+db.sqlite
 app/db.sqlite
-./sample.log
+sample.log
