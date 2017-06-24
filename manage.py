@@ -14,5 +14,15 @@ def make_shell_context():
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
+@manager.command
+def deploy():
+    db.drop_all()
+    db.create_all()
+    User.generate_test_user()
+    User.generate_fake()
+    Message.generate_fake()
+
+
+
 if __name__ == '__main__':
     manager.run()
