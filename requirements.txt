@@ -24,3 +24,5 @@ html5lib
 itsdangerous
 python-editor
 six
+gunicorn
+psycopg2
