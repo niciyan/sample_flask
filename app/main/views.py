@@ -8,11 +8,13 @@ from .forms import MessageForm, EditProfileForm, CommentForm
 from datetime import datetime
 
 @main.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
     form = MessageForm() 
     # if request.method == 'POST':
     if form.validate_on_submit():
+        if not current_user.is_authenticated:
+            flash('sign in to submit your message.', 'info')
+            return redirect(url_for('auth.login'))
         # form.text.data
         now = datetime.utcnow()
         me = Message(body=form.body.data, date=now, author=current_user._get_current_object())
@@ -68,9 +70,12 @@ def post(id):
     message = Message.query.get_or_404(id)
     form = CommentForm()
     if form.validate_on_submit():
+        if not current_user.is_authenticated:
+            flash('sign in to submit your comment.', 'info')
+            return redirect(url_for('auth.login'))
         comment = Comment(body=form.body.data,
-                message=message,
-                author=current_user._get_current_object())
+                            message=message,
+                            author=current_user._get_current_object())
         db.session.add(comment)
         flash('コメントが公開されました！', "success")
         return redirect(url_for('.post', id=message.id, page=-1))
