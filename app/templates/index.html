@@ -19,11 +19,9 @@
 
 {% block page_content %}
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-9">
 			<h3>新しくメッセージを追加する</h3>
 			{{ wtf.quick_form(form) }}
-		</div>
-		<div class="col-sm-6">
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">
@@ -34,6 +32,21 @@
 				{% include '_posts.html' %}
 				{{ render_pagination(pagination) }}
 			</div>
+		</div>
+		<div class="col-sm-3">
+			<ul class="list-group">
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+				<a class="list-group-item list-group-item-action" href="#">jump</a>
+			</ul>
 		</div>
 	</div>
 {% endblock %}

@@ -35,15 +35,15 @@ class Message(db.Model):
         seed()
         user_count = User.query.count()
         SAMPLE_MESSAGES = [
-                "いいんじゃない？",
-                "おｋ",
-                "こんにちは",
-                "おつかれさん",
-                "ただいま",
-                "会議中",
-                "continueed",
+                "# いいんじゃない？\nhi there",
+                "> おｋ  \n> im good.",
+                "## こんにちは\nhello",
+                "_おつかれさん_",
+                "**ただいま**",
+                "# 会議中\ncall me later...",
+                "### continueed\ndid not reach end",
                 "Hello!",
-                "元気げんき",
+                "`元気`  げんき",
                 ]
         for i in range(count):
             u = User.query.offset(randint(0, user_count -1)).first()
