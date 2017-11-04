@@ -1,0 +1,20 @@
+{
+  "name": "sample_flask",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"serve" : "browser-sync start -p \"http://localhost:5000\" -f \"app/templates/\" \"app/static\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niciyan/sample_flask.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niciyan/sample_flask/issues"
+  },
+  "homepage": "https://github.com/niciyan/sample_flask#readme"
+}

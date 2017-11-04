@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from config import config
-from logging import FileHandler, Formatter
+from logging import StreamHandler, FileHandler, Formatter
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_pagedown import PageDown
@@ -43,11 +43,11 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     # log configs(tempolary)
-    file_handler = FileHandler('sample.log')
-    file_handler.setFormatter(Formatter(
+    syserr_handler = StreamHandler()
+    syserr_handler.setFormatter(Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
         '[in %(pathname)s:%(lineno)d]'
     ))
-    app.logger.addHandler(file_handler)
+    app.logger.addHandler(syserr_handler)
 
     return app
