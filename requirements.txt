@@ -27,3 +27,4 @@ six
 gunicorn
 psycopg2
 ForgeryPy
+mysqlclient
