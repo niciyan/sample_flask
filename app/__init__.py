@@ -50,4 +50,5 @@ def create_app(config_name):
     ))
     app.logger.addHandler(syserr_handler)
 
+
     return app
