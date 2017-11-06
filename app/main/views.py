@@ -10,6 +10,7 @@ from datetime import datetime
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = MessageForm() 
+    form.body(rows = 10)
     # if request.method == 'POST':
     if form.validate_on_submit():
         if not current_user.is_authenticated:

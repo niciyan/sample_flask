@@ -20,8 +20,16 @@
 {% block page_content %}
 	<div class="row">
 		<div class="col-sm-9">
-			<h3>新しくメッセージを追加する</h3>
-			{{ wtf.quick_form(form) }}
+			<h3>新しくメッセージを追加する(マークダウン形式が使えます)</h3>
+            <form class="form" method="POST">
+                <div class="form-group">
+                    {{ form.body.label(class_="control_label") }}
+                    {{ form.body(only_input=True, class_="form-control",rows=10) }}
+                    <hr>
+                    {{ form.body(only_preview=True, class_="form-control") }}
+                </div>
+                {{ wtf.form_field(form.submit) }}
+            </form>
 			<h3>
 				<i>Messages</i>
 				<a href="{{ url_for('main.index') }}">
