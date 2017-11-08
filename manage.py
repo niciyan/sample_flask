@@ -32,6 +32,5 @@ def rundebug():
     pprint.pprint( app.config )
     app.run(use_reloader=False)
 
-
 if __name__ == '__main__':
     manager.run()
