@@ -8,7 +8,16 @@
     <h1>Edit Post</h1>
 </div>
 <div>
-    {{ wtf.quick_form(form) }}
+    <form class="form" method="POST">
+        <div class="form-group">
+            {{ form.csrf_token }}
+            {{ form.body.label(class_="control_label") }}
+            {{ form.body(only_input=True, class_="form-control",rows=10) }}
+            <hr>
+            {{ form.body(only_preview=True, class_="form-control") }}
+        </div>
+        {{ wtf.form_field(form.submit) }}
+    </form>
 </div>
 {% endblock %}
 

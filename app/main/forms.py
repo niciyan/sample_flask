@@ -7,7 +7,7 @@ from flask_pagedown.fields import PageDownField
 class MessageForm(FlaskForm):
     body = PageDownField(
             "下に変換されたテキストが描画されます", 
-            default="# Title\nParagraph.\n\n    this is code block(with 4 spaces)\n    happy coding!\n\n*italic block*\n\n**bold string**", 
+            default="# Title\nParagraph. *italic block* **bold string**\n\n    this is code block(with 4 spaces)\n    happy coding!\n\n", 
             validators=[ Required() ]
             )
     submit = SubmitField('送信')

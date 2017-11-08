@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
+
+
+{% block page_content %}
+    <h3>新しくメッセージを追加する</h3>
+    <form class="form" method="POST">
+        <div class="form-group">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form.body(only_input=True, class_="form-control",rows=15) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form.body(only_preview=True, class_="form-control") }}
+                </div>
+            </div>
+            <hr>
+        </div>
+        {{ wtf.form_field(form.submit) }}
+    </form>
+{% endblock %}

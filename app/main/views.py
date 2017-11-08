@@ -7,11 +7,36 @@ from ..models import Message, User, Comment
 from .forms import MessageForm, EditProfileForm, CommentForm
 from datetime import datetime
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET'])
 def index():
+    # form = MessageForm() 
+    # form.body(rows = 10)
+    # # if request.method == 'POST':
+    # if form.validate_on_submit():
+    #     if not current_user.is_authenticated:
+    #         flash('sign in to submit your message.', 'info')
+    #         return redirect(url_for('auth.login'))
+    #     # form.text.data
+    #     now = datetime.utcnow()
+    #     me = Message(body=form.body.data, date=now, author=current_user._get_current_object())
+    #     db.session.add(me)
+    #     db.session.commit()
+    #     flash('新しいメッセージを追加しました!!', 'success')
+    #     current_app.logger.debug('new data inserted.')
+    #     return redirect(url_for('.index'))
+    pagination = Message.query.order_by(Message.date.desc()) \
+            .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
+            error_out=False)
+    messages=pagination.items
+    return render_template('index.html',
+            pagination=pagination,
+            messages=messages
+            )
+
+@main.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
     form = MessageForm() 
-    form.body(rows = 10)
-    # if request.method == 'POST':
     if form.validate_on_submit():
         if not current_user.is_authenticated:
             flash('sign in to submit your message.', 'info')
@@ -24,14 +49,7 @@ def index():
         flash('新しいメッセージを追加しました!!', 'success')
         current_app.logger.debug('new data inserted.')
         return redirect(url_for('.index'))
-    pagination = Message.query.order_by(Message.date.desc()) \
-            .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
-            error_out=False)
-    messages=pagination.items
-    return render_template('index.html',
-            pagination=pagination,
-            messages=messages,
-            form=form)
+    return render_template('create.html', form=form)
 
 @main.route('/user/<username>')
 def user(username):
@@ -90,6 +108,7 @@ def post(id):
             )
     comments = pagination.items
     return render_template('post.html', form=form, messages=[message], comments=comments, pagination=pagination)
+
 
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])

@@ -7,54 +7,18 @@
 {{ moment.include_moment() }}
 {{ moment.lang('ja') }}
 {{ pagedown.include_pagedown() }}
-<script>
-		$('#taka').click(function () { 
-			$('#results').load("/ajax", function() {
-				flask_moment_render_all();
-			});
-		}); 
-</script>
 {% endblock %}
 
 
 {% block page_content %}
-	<div class="row">
-		<div class="col-sm-9">
-			<h3>新しくメッセージを追加する(マークダウン形式が使えます)</h3>
-            <form class="form" method="POST">
-                <div class="form-group">
-                    {{ form.body.label(class_="control_label") }}
-                    {{ form.body(only_input=True, class_="form-control",rows=10) }}
-                    <hr>
-                    {{ form.body(only_preview=True, class_="form-control") }}
-                </div>
-                {{ wtf.form_field(form.submit) }}
-            </form>
-			<h3>
-				<i>Messages</i>
-				<a href="{{ url_for('main.index') }}">
-					<span class="glyphicon glyphicon-refresh"></span>
-				</a>
-			</h3>
-			<div id="results">
-				{% include '_posts.html' %}
-				{{ render_pagination(pagination) }}
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<ul class="list-group">
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-				<a class="list-group-item list-group-item-action" href="#">jump</a>
-			</ul>
-		</div>
+	<h3>
+		<i>Messages</i>
+		<a href="{{ url_for('main.index') }}">
+			<span class="glyphicon glyphicon-refresh"></span>
+		</a>
+	</h3>
+	<div id="results">
+		{% include '_posts.html' %}
+		{{ render_pagination(pagination) }}
 	</div>
 {% endblock %}

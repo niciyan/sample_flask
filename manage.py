@@ -30,6 +30,7 @@ def deploy():
 def rundebug():
     pprint.pprint( app.url_map )
     pprint.pprint( app.config )
+    app.config['SQLALCHEMY_ECHO'] = True
     app.run(use_reloader=False)
 
 
