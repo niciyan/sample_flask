@@ -23,6 +23,7 @@ class SqliteConfig(Config):
 
 
 class ProductionConfig(Config):
+    PREFERRED_URL_SCHEME = "https"
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
 
