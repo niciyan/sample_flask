@@ -3,3 +3,4 @@ app/db.sqlite
 sample.log
 env/
 *.pyc
+*.sqlite

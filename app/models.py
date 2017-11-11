@@ -7,7 +7,7 @@ from datetime import datetime
 import bleach
 from markdown import markdown
 import hashlib
-from flask import request
+from flask import request, url_for
 
 class Message(db.Model):
     __tablename__ = 'messages'
@@ -17,6 +17,15 @@ class Message(db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow())
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='message', lazy='dynamic')
+
+    def to_json(self):
+        post = {
+                'id' : self.id,
+                'body': self.body_html,
+                'timestamp': self.date
+                }
+        return post
+
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):

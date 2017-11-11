@@ -9,6 +9,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     FLASKY_COMMENTS_PER_PAGE = 6
     FLASKY_POSTS_PER_PAGE = 8
+    JSON_AS_ASCII = False
 
     @staticmethod
     def init_app(app):
