@@ -22,6 +22,11 @@ class SqliteConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
 
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
+
+
 
 class ProductionConfig(Config):
     PREFERRED_URL_SCHEME = "https"
@@ -35,6 +40,7 @@ class HerokuConfig(ProductionConfig):
 config = {
         'default' : DevelopmentConfig,
         'development': DevelopmentConfig,
+        'testing': TestingConfig,
         'sqlite': SqliteConfig,
         'production': ProductionConfig,
         'heroku': HerokuConfig
