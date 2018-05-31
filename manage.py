@@ -25,6 +25,12 @@ def deploy():
     User.generate_fake()
     Message.generate_fake()
 
+@manager.command
+def test():
+    import unittest
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
+
 
 @manager.command
 def rundebug():
