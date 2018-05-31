@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = "dev key"
-    SQLALCHEMY_DATABASE_URI = os.environ.get('mysqldriver') or 'sqlite:///db.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///db.sqlite'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     FLASKY_COMMENTS_PER_PAGE = 6
@@ -25,8 +25,6 @@ class SqliteConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
-
-
 
 class ProductionConfig(Config):
     PREFERRED_URL_SCHEME = "https"
