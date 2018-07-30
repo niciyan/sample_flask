@@ -44,7 +44,7 @@ Write MySQL connection info which is used for the application.
 
 example:
 
-	DATABASE_URL=mysql+pymysql://user:password@mysql/dbname
+	DATABASE_URL=mysql+pymysql://username:password@mysql/db_name
 
 You can change it.
 
@@ -54,9 +54,9 @@ Write MySQL account info which is user for MySQL container initialization.
 example:
 
 	MYSQL_ROOT_PASSWORD=root_pass
-	MYSQL_DATABASE=dbname
+	MYSQL_DATABASE=db_name
 	MYSQL_USER=username
-	MYSQL_PASSWORD=pass
+	MYSQL_PASSWORD=password
 
 Change them as you want.
 
