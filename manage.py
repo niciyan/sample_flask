@@ -19,6 +19,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def deploy():
+    pprint.pprint( app.config )
     db.drop_all()
     db.create_all()
     User.generate_test_user()

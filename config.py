@@ -29,7 +29,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     PREFERRED_URL_SCHEME = "https"
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 class HerokuConfig(ProductionConfig):
     pass
