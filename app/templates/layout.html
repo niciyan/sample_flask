@@ -72,6 +72,13 @@
 				{{ message }}
 			</div>
 			{% endfor %}
+			{% if g.search_form %}
+			<form class="form" method="get" action="{{ url_for('main.search') }}">
+				<div class="form-group">
+					{{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+				</div>
+			</form>
+			{% endif %}
 			{% block page_content %}{% endblock %}
 		</div>
 	</div>

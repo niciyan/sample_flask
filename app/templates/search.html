@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+
+{% block page_content %}
+	<h3>
+		<i>Search Result</i>
+		<a href="{{ url_for('main.index') }}">
+			<span class="glyphicon glyphicon-refresh"></span>
+		</a>
+	</h3>
+	<ul>
+		{% if next_url %}
+			<li><a href="{{ next_url or '#' }}"></a></li>
+		{% endif %}
+		{% if prev_url %}
+			<li><a href="{{ prev_url or '#' }}"></a></li>
+		{% endif %}
+	</ul>
+	<div id="results">
+		{% include '_posts.html' %}
+	</div>
+{% endblock %}

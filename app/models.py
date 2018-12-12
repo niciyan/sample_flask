@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
-from . import db
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import UserMixin
-from . import login_manager
-from datetime import datetime
-import bleach
-from markdown import markdown
 import hashlib
-from flask import request, url_for
+from datetime import datetime
+
+import bleach
+from flask import request
+from flask_login import UserMixin
+from markdown import markdown
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from . import db
+from . import login_manager
+
 
 class Message(db.Model):
     __tablename__ = 'messages'
+    __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True, index=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
@@ -20,12 +24,11 @@ class Message(db.Model):
 
     def to_json(self):
         post = {
-                'id' : self.id,
-                'body': self.body_html,
-                'timestamp': self.date
-                }
+            'id': self.id,
+            'body': self.body_html,
+            'timestamp': self.date
+        }
         return post
-
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -36,29 +39,30 @@ class Message(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
-
     @staticmethod
     def generate_fake(count=10):
         from random import seed, randint, choice
-        
+
         seed()
         user_count = User.query.count()
         SAMPLE_MESSAGES = [
-                "# いいんじゃない？\nhi there",
-                "> おｋ  \n> im good.",
-                "## こんにちは\nhello",
-                "_おつかれさん_",
-                "**ただいま**",
-                "# 会議中\ncall me later...",
-                "### continueed\ndid not reach end",
-                "Hello!",
-                "`元気`  げんき",
-                ]
+            "# いいんじゃない？\nhi there",
+            "> おｋ  \n> im good.",
+            "## こんにちは\nhello",
+            "_おつかれさん_",
+            "**ただいま**",
+            "# 会議中\ncall me later...",
+            "### continueed\ndid not reach end",
+            "Hello!",
+            "`元気`  げんき",
+        ]
         for i in range(count):
-            u = User.query.offset(randint(0, user_count -1)).first()
-            m = Message(body=choice(SAMPLE_MESSAGES),date=datetime.utcnow(), author=u)
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            m = Message(body=choice(SAMPLE_MESSAGES), date=datetime.utcnow(), author=u)
             db.session.add(m)
-            db.session.commit()
+
+        db.session.commit()
+
 
 db.event.listen(Message.body, 'set', Message.on_changed_body)
 
@@ -83,7 +87,6 @@ class User(UserMixin, db.Model):
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
-
 
     def gravatar(self, size=100, default='identicon', rating='g'):
         if request.is_secure:
@@ -140,6 +143,7 @@ class User(UserMixin, db.Model):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
+
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
@@ -157,7 +161,9 @@ class Comment(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
+
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
+
 
 @login_manager.user_loader
 def load_user(user_id):

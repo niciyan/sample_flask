@@ -1,42 +1,37 @@
 # -*- coding: utf-8 -*-
-from flask import render_template, redirect, flash, url_for, current_app, abort, request
+from datetime import datetime
+
+from flask import render_template, redirect, flash, url_for, current_app, abort, request, g
 from flask_login import login_required, current_user
+
 from . import main
+from .forms import MessageForm, EditProfileForm, CommentForm, SearchForm
 from .. import db
 from ..models import Message, User, Comment
-from .forms import MessageForm, EditProfileForm, CommentForm
-from datetime import datetime
+
+
+@main.before_app_request
+def before_request():
+    if current_user.is_authenticated:
+        g.search_form = SearchForm()
+
 
 @main.route('/', methods=['GET'])
 def index():
-    # form = MessageForm() 
-    # form.body(rows = 10)
-    # # if request.method == 'POST':
-    # if form.validate_on_submit():
-    #     if not current_user.is_authenticated:
-    #         flash('sign in to submit your message.', 'info')
-    #         return redirect(url_for('auth.login'))
-    #     # form.text.data
-    #     now = datetime.utcnow()
-    #     me = Message(body=form.body.data, date=now, author=current_user._get_current_object())
-    #     db.session.add(me)
-    #     db.session.commit()
-    #     flash('新しいメッセージを追加しました!!', 'success')
-    #     current_app.logger.debug('new data inserted.')
-    #     return redirect(url_for('.index'))
     pagination = Message.query.order_by(Message.date.desc()) \
-            .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
-            error_out=False)
-    messages=pagination.items
+        .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
+                  error_out=False)
+    messages = pagination.items
     return render_template('index.html',
-            pagination=pagination,
-            messages=messages
-            )
+                           pagination=pagination,
+                           messages=messages
+                           )
+
 
 @main.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-    form = MessageForm() 
+    form = MessageForm()
     if form.validate_on_submit():
         if not current_user.is_authenticated:
             flash('sign in to submit your message.', 'info')
@@ -51,12 +46,14 @@ def create():
         return redirect(url_for('.index'))
     return render_template('create.html', form=form)
 
+
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
     return render_template('user.html', user=user)
+
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
@@ -74,15 +71,12 @@ def edit_profile():
     form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
 
-@main.route('/ajax')
-def load_ajax():
-    messages = Message().query.filter_by(author_id=current_user.get_id()).order_by(Message.date.desc()).all()
-    return render_template('ajax.html', messages=messages)
 
 @main.route('/admin')
 def show_users():
     users = User().query.all()
     return render_template('admin.html', users=users)
+
 
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
@@ -93,29 +87,28 @@ def post(id):
             flash('sign in to submit your comment.', 'info')
             return redirect(url_for('auth.login'))
         comment = Comment(body=form.body.data,
-                            message=message,
-                            author=current_user._get_current_object())
+                          message=message,
+                          author=current_user._get_current_object())
         db.session.add(comment)
         flash('コメントが公開されました！', "success")
         return redirect(url_for('.post', id=message.id, page=-1))
     page = request.args.get('page', 1, type=int)
     if page == -1:
-        page = ( message.comments.count() - 1) / \
-                current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+        page = (message.comments.count() - 1) / \
+               current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
     pagination = message.comments.order_by(Comment.timestamp.asc()).paginate(
-            page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
-            error_out=False
-            )
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False
+    )
     comments = pagination.items
     return render_template('post.html', form=form, messages=[message], comments=comments, pagination=pagination)
-
 
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
     message = Message.query.get_or_404(id)
-    if current_user != message.author: 
+    if current_user != message.author:
         abort(403)
     form = MessageForm()
     if form.validate_on_submit():
@@ -125,3 +118,16 @@ def edit(id):
         return redirect(url_for('.post', id=message.id))
     form.body.data = message.body
     return render_template('edit_post.html', form=form)
+
+
+@main.route('/search')
+@login_required
+def search():
+    if not g.search_form.validate():
+        return redirect(url_for('main.index'))
+    page = request.args.get('page', 1, type=int)
+    pagination = Message.query.whoosh_search(g.search_form.q.data)\
+        .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+    messages = pagination.items
+
+    return render_template('search.html', messages=messages, next_url=None, prev_url=None)

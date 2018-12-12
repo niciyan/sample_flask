@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from logging import StreamHandler, Formatter
+
+from flask import Flask
 from flask_bootstrap import Bootstrap
-from config import config
-from logging import StreamHandler, FileHandler, Formatter
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_pagedown import PageDown
+from flask_sqlalchemy import SQLAlchemy
+
+import flask_whooshalchemyplus
+
+from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -17,6 +21,9 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'このページにアクセスするには、ログインしてください。'
 login_manager.login_message_category = 'warning'
+
+
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -29,11 +36,12 @@ def create_app(config_name):
     login_manager.init_app(app)
     pagedown.init_app(app)
 
+    flask_whooshalchemyplus.init_app(app)
+
     # top page routing
     # @app.route('/')
     # def top():
     #     return render_template('top.html')
-
 
     # some attachment statement
     from .main import main as main_blueprint
@@ -52,6 +60,5 @@ def create_app(config_name):
         '[in %(pathname)s:%(lineno)d]'
     ))
     app.logger.addHandler(syserr_handler)
-
 
     return app

@@ -9,6 +9,7 @@ Flask-PageDown
 Flask-SQLAlchemy
 Flask-Script
 Flask-WTF
+Flask-WhooshAlchemy
 Jinja2
 Mako
 Markdown
@@ -28,3 +29,4 @@ gunicorn
 psycopg2
 ForgeryPy
 PyMySQL
+elasticsearch

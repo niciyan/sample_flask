@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import Required, Email, Length, Regexp, EqualTo
 from wtforms import ValidationError
+from wtforms.validators import Required, Email, Length, Regexp, EqualTo
+
 from ..models import User
 
+
 class LoginForm(FlaskForm):
-    email = StringField('メールアドレス', validators=[ Required(), Length(1,64), Email() ])
-    password = PasswordField('パスワード', validators=[ Required() ])
+    email = StringField('メールアドレス', validators=[Required(), Length(1, 64), Email()])
+    password = PasswordField('パスワード', validators=[Required()])
     remember_me = BooleanField('パスワードを記憶する')
     submit = SubmitField('ログイン')
 
 
 class RegistrationForm(FlaskForm):
     email = StringField('メールアドレス', validators=[Required(), Length(1, 64),
-                                           Email()])
+                                               Email()])
     username = StringField('ユーザー名', validators=[
         Required(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                                           'Usernames must have only letters, '

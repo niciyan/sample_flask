@@ -4,3 +4,16 @@ sample.log
 env/
 *.pyc
 *.sqlite
+
+# Environment files
+.env
+.env-mysql
+
+# JetBrains IDE files
+.idea/
+
+# Whoosh index files
+whoosh/
+
+# migrations
+migrations/
