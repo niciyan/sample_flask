@@ -3,14 +3,14 @@ from flask import request
 from flask_pagedown.fields import PageDownField
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import Required, Length, DataRequired
+from wtforms.validators import Length, DataRequired
 
 
 class MessageForm(FlaskForm):
     body = PageDownField(
         "下に変換されたテキストが描画されます",
         default="### Title\nParagraph. *italic block* **bold string**\n\n    this is code block(with 4 spaces)\n    happy coding!\n\n",
-        validators=[Required()]
+        validators=[DataRequired()]
     )
     submit = SubmitField('送信')
 
@@ -23,7 +23,7 @@ class EditProfileForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    body = StringField('あなたのコメント', validators=[Required()])
+    body = StringField('あなたのコメント', validators=[DataRequired()])
     submit = SubmitField('送信')
 
 

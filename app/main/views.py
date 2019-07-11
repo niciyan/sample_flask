@@ -126,7 +126,7 @@ def search():
     if not g.search_form.validate():
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
-    pagination = Message.query.whoosh_search(g.search_form.q.data)\
+    pagination = Message.query.msearch(g.search_form.q.data) \
         .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
     messages = pagination.items
 

@@ -29,4 +29,4 @@ gunicorn
 psycopg2
 ForgeryPy
 PyMySQL
-elasticsearch
+flask-msearch

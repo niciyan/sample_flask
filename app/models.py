@@ -161,6 +161,38 @@ class Comment(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
+    @staticmethod
+    def generate_comments(n=5):
+        from random import seed, choice, randint
+        seed()
+
+        user_count = User.query.count()
+
+        SAMPLE_COMMENTS = [
+            'good post.',
+            'this is bad.',
+            'you are clever!',
+            'NOT SHOWN.',
+            'it sounds good.',
+            'I am interested in this post.',
+            'NICE ONE.',
+            'You gave me a nice explanation.',
+            'OMG!',
+            'Hi, author.',
+        ]
+
+        messages = Message.query.all()
+        for m in messages:
+            for i in range(randint(0, n)):
+                u = User.query.offset(randint(0, user_count - 1)).first()
+                c = Comment(
+                    body=choice(SAMPLE_COMMENTS),
+                    author=u,
+                    message=m
+                )
+                db.session.add(c)
+        db.session.commit()
+
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 

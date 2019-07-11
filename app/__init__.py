@@ -5,10 +5,9 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_moment import Moment
+from flask_msearch import Search
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy
-
-import flask_whooshalchemyplus
 
 from config import config
 
@@ -21,8 +20,7 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'このページにアクセスするには、ログインしてください。'
 login_manager.login_message_category = 'warning'
-
-
+search = Search()
 
 
 def create_app(config_name):
@@ -35,15 +33,8 @@ def create_app(config_name):
     moment.init_app(app)
     login_manager.init_app(app)
     pagedown.init_app(app)
+    search.init_app(app)
 
-    flask_whooshalchemyplus.init_app(app)
-
-    # top page routing
-    # @app.route('/')
-    # def top():
-    #     return render_template('top.html')
-
-    # some attachment statement
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 

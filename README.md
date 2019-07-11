@@ -26,11 +26,22 @@ You have to set 2 variables:
 You create database for sqlite and generate dummy data.
 
     $ python3 manage.py deploy
+    
+create full text index.
+
+    $ python manage.py shell
+
+    In [1]: search.create_index()
+
 
 ### Run
 You start to run app.
 
     $ python3 manage.py runserver
+    
+### Test
+
+    $ python3 manage.py test
 
 ## Docker
 You can run with Docker.
