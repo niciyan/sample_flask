@@ -20,6 +20,8 @@ class Config(object):
     MSEARCH_PRIMARY_KEY = 'id'
     # auto create or update index
     MSEARCH_ENABLE = True
+    REDIS_URL = "redis://:@localhost:6379/0"
+
 
     @staticmethod
     def init_app(app):
