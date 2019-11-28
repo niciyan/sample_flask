@@ -4,12 +4,6 @@ Sample Applicaiton powered by Python3 and Flask.
 You can write a short message (including codes) and publish it.
 ( First, You have to sign up and log in. )
 
-
-## Demo
-You can view this app running on heroku
-
-https://evening-bastion-33772.herokuapp.com/
-
 ## Run locally
 
 ### Installation
