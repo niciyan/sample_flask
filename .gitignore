@@ -2,6 +2,7 @@ db.sqlite
 app/db.sqlite
 sample.log
 env/
+venv/
 *.pyc
 *.sqlite
 
