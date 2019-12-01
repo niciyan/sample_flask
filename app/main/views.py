@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from . import main
 from .forms import MessageForm, EditProfileForm, CommentForm, SearchForm
 from .. import db
+from .. import redis_client
 from ..models import Message, User, Comment
 
 
@@ -19,7 +20,7 @@ def before_request():
 @main.route('/', methods=['GET'])
 def index():
     pagination = Message.query.order_by(Message.date.desc()) \
-        .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], \
+        .paginate(per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
                   error_out=False)
     messages = pagination.items
     return render_template('index.html',
@@ -38,7 +39,7 @@ def create():
             return redirect(url_for('auth.login'))
         # form.text.data
         now = datetime.utcnow()
-        me = Message(body=form.body.data, date=now, author=current_user._get_current_object())
+        me = Message(body=form.body.data, date=now, author=current_user)
         db.session.add(me)
         db.session.commit()
         flash('新しいメッセージを追加しました!!', 'success')
@@ -88,7 +89,7 @@ def post(id):
             return redirect(url_for('auth.login'))
         comment = Comment(body=form.body.data,
                           message=message,
-                          author=current_user._get_current_object())
+                          author=current_user)
         db.session.add(comment)
         flash('コメントが公開されました！', "success")
         return redirect(url_for('.post', id=message.id, page=-1))
@@ -131,3 +132,11 @@ def search():
     messages = pagination.items
 
     return render_template('search.html', messages=messages, next_url=None, prev_url=None)
+
+
+@login_required
+@main.route("/stats")
+def stats():
+    today = datetime.now().strftime("%Y%m%d")
+    d = redis_client.hgetall("access:"+today)
+    return render_template("stats.html", d=d)

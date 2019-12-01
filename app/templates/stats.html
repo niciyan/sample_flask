@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block page_content %}
+    <h3>Today's Access</h3>
+    <table class="table">
+        {% for k, v in d.items() %}
+            <tr>
+                <td>{{ k.decode() }}</td>
+                <td>{{ v.decode() }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
