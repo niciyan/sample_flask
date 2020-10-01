@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from logging import StreamHandler, Formatter
-from datetime import datetime
 
-from flask import Flask, request
+from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_msearch import Search
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy
-from flask_redis import FlaskRedis
 
 from config import config
 
@@ -23,7 +21,6 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message = 'このページにアクセスするには、ログインしてください。'
 login_manager.login_message_category = 'warning'
 search = Search()
-redis_client = FlaskRedis()
 
 
 def create_app(config_name):
@@ -37,12 +34,6 @@ def create_app(config_name):
     login_manager.init_app(app)
     pagedown.init_app(app)
     search.init_app(app)
-    redis_client.init_app(app)
-
-    @app.before_request
-    def printer():
-        now = datetime.now()
-        redis_client.hincrby("access:"+now.strftime("%Y%m%d"), request.path, 1)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

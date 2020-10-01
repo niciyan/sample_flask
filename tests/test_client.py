@@ -20,12 +20,3 @@ class FlaskyTestCase(unittest.TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('ログイン' in response.get_data(as_text=True))
-
-    def test_register(self):
-        response = self.client.post('/auth/register', data={
-            'email': 'john@example.com',
-            'username': 'john',
-            'password': 'cat',
-            'password2': 'cat',
-        })
-        self.assertEqual(response.status_code, 302)

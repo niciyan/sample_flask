@@ -3,7 +3,8 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from . import auth
-from .forms import LoginForm
+from .forms import LoginForm, ChangePasswordForm
+from .. import db
 from ..models import User
 
 
@@ -25,6 +26,22 @@ def logout():
     logout_user()
     flash('ログアウトしました。', 'info')
     return redirect(url_for('main.index'))
+
+
+@auth.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit() and form.check_old_password(current_user):
+        # validation
+        # if not current_user.verify_password(form.old_password.data):
+        #     flash('password is wrong.')
+        #     return render_template('auth/change_password.html', form=form)
+        current_user.password = form.new_password.data
+        db.session.commit()
+        flash('your password is changed.')
+        return redirect(url_for('main.index'))
+    return render_template('auth/change_password.html', form=form)
 
 
 # @auth.route('/register', methods=['GET', 'POST'])

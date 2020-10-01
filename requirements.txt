@@ -29,4 +29,3 @@ gunicorn
 ForgeryPy
 PyMySQL
 flask-msearch
-flask-redis

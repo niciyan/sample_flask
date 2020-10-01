@@ -23,13 +23,14 @@
 		</p>
 		{% endif %}
 		{% if user.about_me %} <p>{{ user.about_me }}</p> {% endif %}
-        <dl>
-            <dt>登録日</dt>
-            <dd>{{ moment(user.member_since).format('L') }}.</dd>
-            <dt>最終ログイン</dt>
-            <dd>{{ moment(user.last_seen).fromNow() }}.</dd>
-        </dl>
+		<dl>
+			<dt>登録日</dt>
+			<dd>{{ moment(user.member_since).format('L') }}.</dd>
+			<dt>最終ログイン</dt>
+			<dd>{{ moment(user.last_seen).fromNow() }}.</dd>
+		</dl>
 		{% if user == current_user %}
+		<a class="btn btn-default" href="{{ url_for('auth.change_password') }}">Change Password</a>
 		<a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
 			Edit Profile
 		</a>

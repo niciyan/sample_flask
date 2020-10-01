@@ -7,7 +7,6 @@ from flask_login import login_required, current_user
 from . import main
 from .forms import MessageForm, EditProfileForm, CommentForm, SearchForm
 from .. import db
-from .. import redis_client
 from ..models import Message, User, Comment
 
 
@@ -133,10 +132,3 @@ def search():
 
     return render_template('search.html', messages=messages, next_url=None, prev_url=None)
 
-
-@login_required
-@main.route("/stats")
-def stats():
-    today = datetime.now().strftime("%Y%m%d")
-    d = redis_client.hgetall("access:"+today)
-    return render_template("stats.html", d=d)
