@@ -1,26 +1,12 @@
 import os
 import pprint
 
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager, Shell
-
 from app import create_app, db, search
 from app.models import User, Message, Comment
 
 app = create_app(os.getenv('flask_config') or 'default')
-manager = Manager(app)
-migrate = Migrate(app, db)
 
-
-def make_shell_context():
-    return dict(app=app, db=db, search=search, User=User, Message=Message)
-
-
-manager.add_command("shell", Shell(make_context=make_shell_context))
-manager.add_command('db', MigrateCommand)
-
-
-@manager.command
+@app.cli.command("deploy")
 def deploy():
     pprint.pprint(app.config)
     db.drop_all()
@@ -32,14 +18,14 @@ def deploy():
     search.create_index()
 
 
-@manager.command
+@app.cli.command("test")
 def test():
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
 
-@manager.command
+@app.cli.command("debug")
 def rundebug():
     pprint.pprint(app.url_map)
     pprint.pprint(app.config)
@@ -48,4 +34,4 @@ def rundebug():
 
 
 if __name__ == '__main__':
-    manager.run()
+    app.run()
