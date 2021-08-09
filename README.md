@@ -17,25 +17,29 @@ You have to set 2 variables:
 	$ export DATABASE_URL=mysql+pymysql://username:password@localhost/db_name
 	$ export flask_config=development
 
-You create database for sqlite and generate dummy data.
+### Run with Flask CLI Interface
+Windows
 
-    $ python3 manage.py deploy
+    $ set FLASK_APP=manage
+    $ flask run
     
-create full text index.
+Linux
 
-    $ python manage.py shell
-
-    In [1]: search.create_index()
-
-
-### Run
-You start to run app.
-
-    $ python3 manage.py runserver
+    $ export FLASK_APP=manage
+    $ flask run
     
-### Test
+Run shell operations
 
-    $ python3 manage.py test
+    $ flask runserver
+    $ flask test
+    $ flask deploy
+    
+Launching a shell
+
+    $ flask shell
+    >>> db.create_all()
+    >>> Message.query.all()
+    >>> search.create_index()
 
 ## Docker
 You can run with Docker.
@@ -78,19 +82,3 @@ Run.
 Run as daemon.
 
 	$ docker-compose up -d
-
-
-### Run with Flask CLI Interface
-Windows
-
-    $ set FLASK_APP=manage
-    $ flask run
-    
-Linux
-
-    $ export FLASK_APP=manage
-    $ flask run
-    
-Launching a shell
-
-    $ flask shell
