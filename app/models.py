@@ -3,7 +3,6 @@ import hashlib
 from datetime import datetime
 
 import bleach
-from flask import request
 from flask_login import UserMixin
 from markdown import markdown
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -102,7 +101,7 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     @staticmethod
-    def generate_fake(count=100):
+    def generate_fake(count=10):
         from sqlalchemy.exc import IntegrityError
         from random import seed
         import forgery_py
@@ -192,6 +191,15 @@ class Comment(db.Model):
 
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
+
+
+class EnglishWord(db.Model):
+    __tablename__ = 'english_words'
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(200))
+    meaning = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 @login_manager.user_loader

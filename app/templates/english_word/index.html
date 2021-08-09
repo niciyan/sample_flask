@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang('ja') }}
+{% endblock %}
+
+
+{% block page_content %}
+<div class="col-sm-6">
+    <h2>English Words</h2>
+    <dl>
+        {% for word in words %}
+        <dt>{{ word.word }}</dt>
+        <dd>{{ word.meaning }}</dd>
+        {% endfor %}
+    </dl>
+</div>
+<h4>Add Word</h4>
+<div class="col-sm-6">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

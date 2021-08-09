@@ -38,8 +38,8 @@ def create():
             return redirect(url_for('auth.login'))
         # form.text.data
         now = datetime.utcnow()
-        me = Message(body=form.body.data, date=now, author=current_user)
-        db.session.add(me)
+        message = Message(body=form.body.data, date=now, author=current_user)
+        db.session.add(message)
         db.session.commit()
         flash('新しいメッセージを追加しました!!', 'success')
         current_app.logger.debug('new data inserted.')

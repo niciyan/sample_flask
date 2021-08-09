@@ -44,6 +44,9 @@ def create_app(config_name):
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
 
+    from .english_word import english_word_app
+    app.register_blueprint(english_word_app, url_prefix='/english-word')
+
     # log configs(tempolary)
     syserr_handler = StreamHandler()
     syserr_handler.setFormatter(Formatter(
