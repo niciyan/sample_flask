@@ -11,16 +11,29 @@
 
 {% block page_content %}
 <div class="col-sm-6">
-    <h2>English Words</h2>
+    <h4>あなたの英単語</h4>
+    <hr>
     <dl>
         {% for word in words %}
-        <dt>{{ word.word }}</dt>
+        <dt class="text-primary">{{ word.word }}</dt>
         <dd>{{ word.meaning }}</dd>
+        <hr>
         {% endfor %}
     </dl>
 </div>
-<h4>Add Word</h4>
 <div class="col-sm-6">
-    {{ wtf.quick_form(form) }}
+    <h4>単語を追加</h4>
+    <form method="post" class="form" role="form">
+        <hr>
+        {{ form.hidden_tag() }}
+        {% for word_input_form in form.word_input_forms.entries %}
+        <h6>単語追加フォーム{{ loop.index }}</h6>
+        {% for field in word_input_form %}
+        {{ wtf.form_field(field) }}
+        {% endfor %}
+        <hr>
+        {% endfor %}
+        {{ wtf.form_field(form.submit) }}
+    </form>
 </div>
 {% endblock %}

@@ -27,6 +27,7 @@ def deploy():
 @app.cli.command("test")
 def test():
     import unittest
+    pprint.pprint(app.config)
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
@@ -36,7 +37,7 @@ def rundebug():
     pprint.pprint(app.url_map)
     pprint.pprint(app.config)
     app.config['SQLALCHEMY_ECHO'] = True
-    app.run(use_reloader=False)
+    # app.run()
 
 
 if __name__ == '__main__':
