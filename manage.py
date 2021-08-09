@@ -2,9 +2,15 @@ import os
 import pprint
 
 from app import create_app, db, search
-from app.models import User, Message, Comment
+from app.models import User, Message, Comment, EnglishWord
 
 app = create_app(os.getenv('flask_config') or 'default')
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Message=Message, EnglishWord=EnglishWord)
+
 
 @app.cli.command("deploy")
 def deploy():

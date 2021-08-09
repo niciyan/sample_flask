@@ -91,3 +91,6 @@ Linux
     $ export FLASK_APP=manage
     $ flask run
     
+Launching a shell
+
+    $ flask shell
