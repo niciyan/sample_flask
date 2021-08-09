@@ -80,4 +80,14 @@ Run as daemon.
 	$ docker-compose up -d
 
 
+### Run with Flask CLI Interface
+Windows
 
+    $ set FLASK_APP=manage
+    $ flask run
+    
+Linux
+
+    $ export FLASK_APP=manage
+    $ flask run
+    
