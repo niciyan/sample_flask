@@ -28,5 +28,5 @@ def index():
         else:
             flash("{} words saved!".format(c), 'success')
         return redirect(url_for('.index'))
-    words = EnglishWord.query.order_by(EnglishWord.timestamp.asc()).all()
+    words = EnglishWord.query.order_by(EnglishWord.timestamp.desc()).all()
     return render_template('english_word/index.html', form=form, words=words)
