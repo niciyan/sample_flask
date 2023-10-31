@@ -11,18 +11,32 @@
     <form class="form" method="POST">
         <div class="form-group">
             {{ form.csrf_token }}
-            {{ form.body.label(class_="control_label") }}
-            {{ form.body(only_input=True, class_="form-control",rows=10) }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form.body(only_input=True, class_="form-control",rows=15) }}
+                </div>
+                <div id="markdown-preview"></div>
+            </div>
             <hr>
-            {{ form.body(only_preview=True, class_="form-control") }}
         </div>
         {{ wtf.form_field(form.submit) }}
     </form>
-</div>
-{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    const input = document.getElementById('flask-pagedown-body')
+    const preview = document.getElementById('markdown-preview')
+    input.addEventListener('input', update)
+    preview.innerHTML = marked.parse(input.value);
+    function update(e) {
+      preview.innerHTML = marked.parse(e.target.value);
+    }
 
-{% block scripts %}
-{{ super() }}
-{{ pagedown.include_pagedown() }}
-{% endblock %}
+
+    </script>
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+    {% endblock %}
 

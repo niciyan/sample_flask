@@ -24,8 +24,8 @@ class Message(db.Model):
     def to_json(self):
         post = {
             'id': self.id,
-            'body': self.body_html,
-            'timestamp': self.date
+            'body': self.body,
+            'timestamp': self.date.isoformat()
         }
         return post
 
@@ -35,7 +35,7 @@ class Message(db.Model):
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'p']
         target.body_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
+            markdown(value, output_format='html', extensions=['fenced_code']),
             tags=allowed_tags, strip=True))
 
     @staticmethod
